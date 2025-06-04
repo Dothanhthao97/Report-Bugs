@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Report-Bugs/build/index.html/static/css/main.ca76aa05.css",
-    "main.js": "/Report-Bugs/build/index.html/static/js/main.d6840442.js",
-    "static/js/453.a685f6e2.chunk.js": "/Report-Bugs/build/index.html/static/js/453.a685f6e2.chunk.js",
-    "index.html": "/Report-Bugs/build/index.html/index.html",
-    "main.ca76aa05.css.map": "/Report-Bugs/build/index.html/static/css/main.ca76aa05.css.map",
-    "main.d6840442.js.map": "/Report-Bugs/build/index.html/static/js/main.d6840442.js.map",
-    "453.a685f6e2.chunk.js.map": "/Report-Bugs/build/index.html/static/js/453.a685f6e2.chunk.js.map"
+    "main.css": "/Report-Bugs/static/css/main.ca76aa05.css",
+    "main.js": "/Report-Bugs/static/js/main.40861f02.js",
+    "static/js/453.a685f6e2.chunk.js": "/Report-Bugs/static/js/453.a685f6e2.chunk.js",
+    "index.html": "/Report-Bugs/index.html",
+    "main.ca76aa05.css.map": "/Report-Bugs/static/css/main.ca76aa05.css.map",
+    "main.40861f02.js.map": "/Report-Bugs/static/js/main.40861f02.js.map",
+    "453.a685f6e2.chunk.js.map": "/Report-Bugs/static/js/453.a685f6e2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ca76aa05.css",
-    "static/js/main.d6840442.js"
+    "static/js/main.40861f02.js"
   ]
 }
