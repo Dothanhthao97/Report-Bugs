@@ -12,7 +12,6 @@
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "@types/react-router-dom": "^5.3.3",
-    "gh-pages": "^6.3.0",
     "jquery": "^3.7.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -47,5 +46,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://dothanhthao97.github.io/Report-Bugs/"
+  "homepage": "https://dothanhthao97.github.io/Report-Bugs/build/index.html",
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
 }
