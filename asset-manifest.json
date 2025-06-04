@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Report-Bugs/static/css/main.ca76aa05.css",
+    "main.js": "/Report-Bugs/static/js/main.dd70e8c6.js",
+    "static/js/453.a685f6e2.chunk.js": "/Report-Bugs/static/js/453.a685f6e2.chunk.js",
+    "index.html": "/Report-Bugs/index.html",
+    "main.ca76aa05.css.map": "/Report-Bugs/static/css/main.ca76aa05.css.map",
+    "main.dd70e8c6.js.map": "/Report-Bugs/static/js/main.dd70e8c6.js.map",
+    "453.a685f6e2.chunk.js.map": "/Report-Bugs/static/js/453.a685f6e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ca76aa05.css",
+    "static/js/main.dd70e8c6.js"
+  ]
+}
