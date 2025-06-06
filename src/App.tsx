@@ -22,7 +22,7 @@ function App() {
       String(now.getHours()).padStart(2, "0") +
       String(now.getMinutes()).padStart(2, "0");
     
-    fetch(`Data.json?t=${timestamp}`)
+    fetch(`DataSuggestion.json?t=${timestamp}`)
       .then((res) => res.json())
       .then((sarif) => {
         type Rule = {
