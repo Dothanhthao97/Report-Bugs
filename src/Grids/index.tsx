@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect, useRef } from "react";
+import Prism from "prismjs";
+import "prismjs/themes/prism.css"; // Thêm theme của Prism
+import "prismjs/components/prism-javascript.min.js";
+import "prismjs/components/prism-csharp.min.js"; //C#
 
 interface GridsContainerProps {
   activeTab: string;
   results: any[];
   rulesMap: Record<string, any>;
-  onShowPopup: (html: string) => void;
+  onShowPopup: (title: string, html: string, className: string) => void;
 }
 
 const GridsContainer: React.FC<GridsContainerProps> = ({
@@ -13,12 +17,18 @@ const GridsContainer: React.FC<GridsContainerProps> = ({
   rulesMap,
   onShowPopup,
 }) => {
-  const filteredResults = activeTab === "All"
-    ? results
-    : results.filter((r) => {
-        const rule = rulesMap[r.ruleId] || {};
-        return (r.securitySeverityName || rule.securitySeverityName || "Unknown") === activeTab;
-      });
+  const filteredResults =
+    activeTab === "All"
+      ? results
+      : results.filter((r) => {
+          const rule = rulesMap[r.ruleId] || {};
+          return (
+            (r.securitySeverityName ||
+              rule.securitySeverityName ||
+              "Unknown") === activeTab
+          );
+        });
+  const codeRef = useRef<any>(null);
 
   return (
     <div id="tableContainer" className="tableContainer">
@@ -48,19 +58,29 @@ const GridsContainer: React.FC<GridsContainerProps> = ({
             const line = region.startLine || "";
             const column = region.startColumn || "";
 
-            const cssClass = `severityName-${r.securitySeverityName || rule.securitySeverityName || "Unknown"}`;
+            const cssClass = `severityName-${
+              r.securitySeverityName || rule.securitySeverityName || "Unknown"
+            }`;
+            const fixes = Array.isArray(r.fixes)
+              ? r.fixes
+              : r.fixes || rule.fixes || "";
 
             const allUris: string[] = [];
             r.codeFlows?.forEach((cf: any) => {
               cf.threadFlows?.forEach((tf: any) => {
                 tf.locations?.forEach((loc: any) => {
-                  const uri = loc.location?.physicalLocation?.artifactLocation?.uri;
+                  const uri =
+                    loc.location?.physicalLocation?.artifactLocation?.uri;
                   const reg = loc.location?.physicalLocation?.region || {};
                   const lineF = reg.startLine || "";
                   const colF = reg.startColumn || "";
                   const msg = loc.location?.message?.text || "";
                   if (uri)
-                    allUris.push(`<div class='item'><strong>Location:</strong> ${uri}:${lineF}:${colF}<br/><strong>Message:</strong> ${msg}</div>`);
+                    allUris.push(
+                      // `<div class='item'><strong>Location:</strong> ${uri}:${lineF}:${colF}<br/><strong>Message:</strong> ${msg}</div>`
+                      `**Location:** ${uri}:${lineF}:${colF}
+                      **Message:** ${msg}`
+                    );
                 });
               });
             });
@@ -73,12 +93,18 @@ const GridsContainer: React.FC<GridsContainerProps> = ({
                   <td>{r.precision || rule.precision || ""}</td>
                   <td>{r.problemSeverity || rule.problemSeverity || ""}</td>
                   <td>{r.securitySeverity || rule.securitySeverity || ""}</td>
-                  <td>{rule.fullDescription?.text || rule.shortDescription?.text || ""}</td>
+                  <td>
+                    {rule.fullDescription?.text ||
+                      rule.shortDescription?.text ||
+                      ""}
+                  </td>
                   <td>
                     <div className="item">
-                      {r.message?.text?.split('\n').map((m: string, i: number) => (
-                        <div key={i}>{m}</div>
-                      ))}
+                      {r.message?.text
+                        ?.split("\n")
+                        .map((m: string, i: number) => (
+                          <div key={i}>{m}</div>
+                        ))}
                     </div>
                   </td>
                 </tr>
@@ -87,14 +113,37 @@ const GridsContainer: React.FC<GridsContainerProps> = ({
                     {file}:{line}:{column}
                     <span
                       className="lookup"
-                      onClick={() => onShowPopup(allUris.join(""))}
-                      style={{ cursor: "pointer", color: "#004f9e", marginLeft: "10px" }}
+                      onClick={() =>
+                        onShowPopup(
+                          `CodeFlows Location`,
+                          allUris.join("\n\n"),
+                          "space-pre"
+                        )
+                      }
+                      style={{
+                        cursor: "pointer",
+                        color: "#004f9e",
+                        marginLeft: "10px",
+                      }}
                     >
                       🔍
                     </span>
                   </td>
                   <td>{r.attackerActions || ""}</td>
-                  <td>{typeof r.fixes === "string" ? r.fixes : ""}</td>
+                  <td>
+                    Cách fix bug
+                    <span
+                      className="lookup"
+                      onClick={() => onShowPopup(`Fix suggestion`, fixes, "")}
+                      style={{
+                        cursor: "pointer",
+                        color: "#004f9e",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      🔍
+                    </span>
+                  </td>
                 </tr>
               </React.Fragment>
             );

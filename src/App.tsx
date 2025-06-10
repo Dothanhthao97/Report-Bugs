@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import TabsContainer from './Tabs';
-import GridsContainer from './Grids';
-import DialogContainer from './Dialog';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import TabsContainer from "./Tabs";
+import GridsContainer from "./Grids";
+import DialogContainer from "./Dialog";
+import { title } from "process";
 
 function App() {
   const [data, setData] = useState<{
@@ -13,16 +14,19 @@ function App() {
   const [popupContent, setPopupContent] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [activeTab, setActiveTab] = useState("All");
-  
+  const [popupTitle, setPopupTitle] = useState("");
+  const [popupClassName, setPopupClassName] = useState("");
+
   useEffect(() => {
     const now = new Date();
-    const timestamp = now.getFullYear().toString() +
+    const timestamp =
+      now.getFullYear().toString() +
       String(now.getMonth() + 1).padStart(2, "0") +
       String(now.getDate()).padStart(2, "0") +
       String(now.getHours()).padStart(2, "0") +
       String(now.getMinutes()).padStart(2, "0");
-    
-    fetch(`DataSuggestion.json?t=${timestamp}`)
+
+    fetch(`${process.env.PUBLIC_URL}/Result.json?t=${timestamp}`)
       .then((res) => res.json())
       .then((sarif) => {
         type Rule = {
@@ -38,13 +42,20 @@ function App() {
   }, []);
 
   // ✅ thiếu hàm này
-  const showLocationPopup = (html: string) => {
+  const showLocationPopup = (
+    title: string,
+    html: string,
+    className: string
+  ) => {
+    setPopupTitle(title);
     setPopupContent(html);
     setShowPopup(true);
+    setPopupClassName(className);
   };
 
   if (!data) return <div className="container">Loading...</div>;
-  if (error) return <div className="container text-red">❌ Lỗi đọc file JSON</div>;
+  if (error)
+    return <div className="container text-red">❌ Lỗi đọc file JSON</div>;
 
   const { results, rulesMap } = data;
 
@@ -64,9 +75,11 @@ function App() {
         onShowPopup={showLocationPopup}
       />
       <DialogContainer
+        title={popupTitle}
         popupContent={popupContent}
         showPopup={showPopup}
         onClose={() => setShowPopup(false)}
+        className={popupClassName}
       />
     </div>
   );
