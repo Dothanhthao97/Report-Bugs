@@ -30,6 +30,10 @@ const GridsContainer: React.FC<GridsContainerProps> = ({
         });
   const codeRef = useRef<any>(null);
 
+  useEffect(() => {
+    Prism.highlightAll(); // Tô màu cú pháp sau khi content được render
+  }, [filteredResults]);
+
   return (
     <div id="tableContainer" className="tableContainer">
       <table>
@@ -93,18 +97,15 @@ const GridsContainer: React.FC<GridsContainerProps> = ({
                   <td>{r.precision || rule.precision || ""}</td>
                   <td>{r.problemSeverity || rule.problemSeverity || ""}</td>
                   <td>{r.securitySeverity || rule.securitySeverity || ""}</td>
-                  <td>
-                    {rule.fullDescription?.text ||
-                      rule.shortDescription?.text ||
-                      ""}
-                  </td>
+                  <td>{r.fullDescription || rule.shortDescription || ""}</td>
                   <td>
                     <div className="item">
-                      {r.message?.text
+                      ${r.message || rule.message || ""}
+                      {/* {r.message?.text
                         ?.split("\n")
                         .map((m: string, i: number) => (
                           <div key={i}>{m}</div>
-                        ))}
+                        ))} */}
                     </div>
                   </td>
                 </tr>
